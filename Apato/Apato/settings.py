@@ -52,6 +52,9 @@ INSTALLED_APPS = [
 
     # Cors
     'corsheaders',
+
+    # Installed Apps
+    'user',
 ]
 
 MIDDLEWARE = [
@@ -148,3 +151,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Cors allow Origin
 CORS_ALLOW_ALL_ORIGINS = True # for development allowing allowing from all origin
+
+
+# Using Custom User
+AUTH_USER_MODEL = 'user.User' # app_name.calss_name
+
+
+# For Images the static files
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
