@@ -19,6 +19,7 @@ class User(AbstractUser):
     # Setting Email -> Using email for login
     email = models.EmailField(unique = True)
 
+    username = models.CharField( unique = True, max_length=150)
 
     # Setting Email as login Credentials
     USERNAME_FIELD = "email"

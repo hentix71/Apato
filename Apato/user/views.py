@@ -1,6 +1,5 @@
 # Generic views
-from rest_framework.generics import GenericAPIView, CreateAPIView, ListAPIView
-
+from rest_framework.generics import GenericAPIView, CreateAPIView, ListAPIView, UpdateAPIView
 
 # Responses
 from rest_framework.response import Response
@@ -9,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 # Serializers
-from .serializer import UserSerializer, RegisterUserSerializer, LoginSerializer
+from .serializer import UserSerializer, RegisterUserSerializer, LoginUserSerializer, UpdateUserSerializer
 
 # User
 from .models import User
@@ -20,12 +19,18 @@ from rest_framework.permissions import AllowAny, IsAdminUser
 # Pagination
 from custom_pagination import CustomCursorPagination
 
+# Permission
+from .custom_permission import IsAdminOrOwner
 
 
 
 
-
-
+# For Update
+class UpdateUser(UpdateAPIView):
+    permission_classes = [IsAdminOrOwner]
+    lookup_field = "id"
+    serializer_class = UpdateUserSerializer
+    queryset = User.objects.all()
 
 
 
@@ -34,11 +39,11 @@ from custom_pagination import CustomCursorPagination
 class LoginUser(GenericAPIView):
 
     permission_classes = [AllowAny]
-    serializer_class = LoginSerializer # required for Swagger api input fileds
+    serializer_class = LoginUserSerializer # required for Swagger api input fileds
 
     """Have to explectely define a post function"""
     def post(self, request):
-        serializer = LoginSerializer(data = request.data)
+        serializer = LoginUserSerializer(data = request.data)
 
         if serializer.is_valid():
             return Response(serializer.validated_data)

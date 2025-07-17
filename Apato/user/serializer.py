@@ -3,16 +3,86 @@ from rest_framework import serializers
 # Models
 from .models import User
 
-# Custom Backend
-from .custom_backend import CustomUserBackend
-
 # Refresh Token
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
 
+
+
+
+
+
+#For Update
+class UpdateUserSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = User
+        fields = ["username", "password", "bio", "profile_picture", "is_host"] # This fields can be updated
+        
+    
+    def validate(self, attrs):
+
+        """Extracting the fields from attrs. Using get as it assign None if no value found"""
+        username = (attrs.get("username"))
+        password = (attrs.get("password"))
+        bio = (attrs.get("bio"))
+        profile_picture = attrs.get("profile_picture")
+        is_host = attrs.get("is_host")
+
+        # Stripping
+        for i in [username, password, bio, profile_picture, is_host]:
+            if i is not None :
+                if type(i)  is not bool:
+                    i = i.strip()
+
+        # Some value should be entered for update
+        if all(i in["", None] for i in (username, password, bio, profile_picture, is_host)):
+            """Atleast one field should have value, also "" empty string is none"""
+            raise serializers.ValidationError("Atleast enter value for one field")
+        
+        """User Instance"""
+        user_instance = self.instance # Getting the instance
+
+        if user_instance is None:
+            """Checking the user instance is none"""
+            raise serializers.ValidationError("No instance found")
+        
+        # Empty Dict for collecting errors
+        errors = {}
+
+
+        for i in ["username", "password", "bio", "is_host", "profile_picture"]:
+            
+            if getattr(user_instance, i) == attrs.get(i):
+                errors[i] = {i, f"Enter new Value for {i}"}
+
+        if errors:
+            """In case any error is found"""
+            raise serializers.ValidationError(errors)
+
+        return attrs
+
+
+    # Update function
+    def update(self, instance, validated_data):
+        """Update the new value to instance"""
+        for i in validated_data:
+            if i is not None:
+                setattr(instance, i, validated_data.get(i)) 
+        instance.save()
+        return instance
+        
+
+
+
+
+
+
+
+
 # For Login
-class LoginSerializer(serializers.Serializer):
+class LoginUserSerializer(serializers.Serializer):
     """For Login Serializer : serializers.Serializer because we are just validating the entered credentials.
     Not storing those into database"""
 

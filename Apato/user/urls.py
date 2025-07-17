@@ -20,4 +20,7 @@ urlpatterns = [
     # For Login
     path('login/', LoginUser.as_view(), name = "For Login user"),
 
+    # For Update
+    path('update/<int:id>', UpdateUser.as_view(), name = "For updating user"),
+
 ]
