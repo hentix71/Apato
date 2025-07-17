@@ -1,5 +1,5 @@
 # Generic views
-from rest_framework.generics import GenericAPIView, CreateAPIView
+from rest_framework.generics import GenericAPIView, CreateAPIView, ListAPIView
 
 
 # Responses
@@ -17,6 +17,25 @@ from .models import User
 # Permissions
 from rest_framework.permissions import AllowAny, IsAdminUser
 
+# Pagination
+from custom_pagination import CustomCursorPagination
+
+
+
+
+# For Listing 
+class ListUsers(ListAPIView):
+    """To list out all registered users"""
+    permission_classes = [AllowAny] # only admin can list all the registered users
+
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    # Explectly Impleting the custom pagination
+    pagination_class = CustomCursorPagination
+
+
+
 
 # For Register
 class RegisterUser(CreateAPIView):
@@ -26,6 +45,21 @@ class RegisterUser(CreateAPIView):
 
     queryset = User.objects.all() # Idk why do we need querryset for register
     serializer_class = RegisterUserSerializer # serializer has all the logic
+
+    # """For Custom response message """
+    # def create(self, request, *args, **kwargs):
+    #     call_serializer_create = super().create(request, *args, **kwargs)
+        
+    #     # gets the created user instacne
+    #     user = self.get_serializer().instance
+
+    #     print(f"From view type : {type(user)} and the user : {user}")
+            
+    #     success_message = {
+    #         "Message": "Sucessfully User Registered"
+    #     }
+
+    #     return Response(success_message, status = status.HTTP_201_CREATED)
 
 
 

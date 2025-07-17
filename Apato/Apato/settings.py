@@ -160,3 +160,9 @@ AUTH_USER_MODEL = 'user.User' # app_name.calss_name
 # For Images the static files
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+
+# Rest Framewrok settings
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.CursorPagination',
+}

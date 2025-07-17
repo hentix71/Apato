@@ -25,7 +25,7 @@ class CustomManager(BaseUserManager):
         """Saving in the database"""
         user.save(using = self._db)
         print("User is saved in the database")
-
+        print(f"this is type: {type(user)}")
         return user
     
 
