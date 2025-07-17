@@ -3,6 +3,57 @@ from rest_framework import serializers
 # Models
 from .models import User
 
+# Custom Backend
+from .custom_backend import CustomUserBackend
+
+# Refresh Token
+from rest_framework_simplejwt.tokens import RefreshToken
+
+
+
+# For Login
+class LoginSerializer(serializers.Serializer):
+    """For Login Serializer : serializers.Serializer because we are just validating the entered credentials.
+    Not storing those into database"""
+
+    """Need to define fields"""
+    email = serializers.EmailField()
+    password = serializers.CharField(max_length = 128, write_only = True)
+
+    def validate(self, attr):
+        email = attr.get("email")
+        password = attr.get("password")
+
+        # For Email
+        try:
+            user = User.objects.get(email = email)
+        except User.DoesNotExist:
+            raise serializers.ValidationError({"email": "Email not registered"})
+
+        # For Password
+        if not user.check_password(password):
+            raise serializers.ValidationError("Incorrect password")
+        
+        """Custom JWT Generation"""
+        refresh_token = RefreshToken.for_user(user)
+        access_token = refresh_token.access_token
+
+        """Custom response"""
+        login_response = {
+            "Message" : "Login Sucessful",
+            "User Id" : user.id,
+            "Username" : user.username,
+            "Access Token" : str(access_token),
+            "Refresh Token" : str(refresh_token)
+        }
+
+        return login_response
+
+
+
+
+
+
 # For Basic and Listing
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

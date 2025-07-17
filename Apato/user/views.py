@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 # Serializers
-from .serializer import UserSerializer, RegisterUserSerializer
+from .serializer import UserSerializer, RegisterUserSerializer, LoginSerializer
 
 # User
 from .models import User
@@ -19,6 +19,30 @@ from rest_framework.permissions import AllowAny, IsAdminUser
 
 # Pagination
 from custom_pagination import CustomCursorPagination
+
+
+
+
+
+
+
+
+
+
+
+# For Login
+class LoginUser(GenericAPIView):
+
+    permission_classes = [AllowAny]
+    serializer_class = LoginSerializer # required for Swagger api input fileds
+
+    """Have to explectely define a post function"""
+    def post(self, request):
+        serializer = LoginSerializer(data = request.data)
+
+        if serializer.is_valid():
+            return Response(serializer.validated_data)
+        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -60,20 +84,4 @@ class RegisterUser(CreateAPIView):
     #     }
 
     #     return Response(success_message, status = status.HTTP_201_CREATED)
-
-
-
-
-# # For Login
-# class LoginUser(GenericAPIView):
-#     """Have to explectely define a post function"""
-    
-#     def post(self, request):
-#         serializer = UserSerializer(data = request.data)
-
-#         if serializer.is_valid():
-
-
-
-
 

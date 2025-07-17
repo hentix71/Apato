@@ -50,6 +50,9 @@ INSTALLED_APPS = [
     # Installed Rest_Framework
     'rest_framework',
 
+    # JWT Authentication
+    'rest_framework_simplejwt',
+
     # Cors
     'corsheaders',
 
@@ -164,5 +167,11 @@ MEDIA_URL = '/media/'
 
 # Rest Framewrok settings
 REST_FRAMEWORK = {
+    # For Cursor Paginatin
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.CursorPagination',
+
+    # For JWT authentication
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
 }

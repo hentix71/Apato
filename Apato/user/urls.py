@@ -17,4 +17,7 @@ urlpatterns = [
     # For Listing 
     path('listing/', ListUsers.as_view(), name = "For Listing users"),
 
+    # For Login
+    path('login/', LoginUser.as_view(), name = "For Login user"),
+
 ]
