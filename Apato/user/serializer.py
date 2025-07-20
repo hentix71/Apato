@@ -12,7 +12,6 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 
 
-
 #For Update
 class UpdateUserSerializer(serializers.ModelSerializer):
     
@@ -67,9 +66,9 @@ class UpdateUserSerializer(serializers.ModelSerializer):
     # Update function
     def update(self, instance, validated_data):
         """Update the new value to instance"""
-        for i in validated_data:
-            if i is not None:
-                setattr(instance, i, validated_data.get(i)) 
+        for i,value in validated_data.items():
+            if value is not None:
+                setattr(instance, i, value) 
         instance.save()
         return instance
         
