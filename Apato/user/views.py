@@ -14,7 +14,7 @@ from .serializer import UserSerializer, RegisterUserSerializer, LoginUserSeriali
 from .models import User
 
 # Permissions
-from rest_framework.permissions import AllowAny, IsAdminUser
+from rest_framework.permissions import AllowAny
 
 # Pagination
 from custom_pagination import CustomCursorPagination

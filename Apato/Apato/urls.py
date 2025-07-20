@@ -16,6 +16,9 @@ urlpatterns = [
 
     # Redirectin to user urls
     path('user/', include('user.urls')),
+
+    # Redirectin to Listing urls
+    path('listing/',include('listing.urls')),    
 ]
 
 # Serve media files during development

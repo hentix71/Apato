@@ -58,6 +58,7 @@ INSTALLED_APPS = [
 
     # Installed Apps
     'user',
+    'listing'
 ]
 
 MIDDLEWARE = [
