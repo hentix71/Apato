@@ -1,5 +1,5 @@
 # Generic views
-from rest_framework.generics import GenericAPIView, CreateAPIView, ListAPIView, UpdateAPIView
+from rest_framework.generics import GenericAPIView, CreateAPIView, ListAPIView, UpdateAPIView, DestroyAPIView
 
 # Responses
 from rest_framework.response import Response
@@ -22,6 +22,28 @@ from custom_pagination import CustomCursorPagination
 # Permission
 from .custom_permission import IsAdminOrOwner
 
+
+
+# For Delete
+class DeleteUser(DestroyAPIView):
+    permission_classes = [IsAdminOrOwner]
+    lookup_field = "id"
+    queryset = User.objects.all()
+
+    def destroy(self, request, *args, **kwargs):
+        """The delete part is directly done using the "destroy" view. here the parmaeter '*args' and '**kwargs' is used 
+        as they carries the data 'id' which is required by 'delete()' method to delete the user"""
+        instance = self.get_object()
+
+        user_email = instance.email
+
+        instance.delete()
+
+        return Response({
+            "Message": "Delete Sucessfull",
+            "User Email": user_email
+        }
+        )
 
 
 

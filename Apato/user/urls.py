@@ -23,4 +23,7 @@ urlpatterns = [
     # For Update
     path('update/<int:id>', UpdateUser.as_view(), name = "For updating user"),
 
+    # For Delete
+    path('delete/<int:id>', DeleteUser.as_view(), name = "For deleting user"),
+
 ]

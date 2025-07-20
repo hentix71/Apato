@@ -9,9 +9,6 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 
 
-
-
-
 #For Update
 class UpdateUserSerializer(serializers.ModelSerializer):
     
@@ -72,9 +69,6 @@ class UpdateUserSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
         
-
-
-
 
 
 
